@@ -6,7 +6,7 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
   const addItem = useDispatch('addItem')
   const updateItem = useDispatch('updateItem')
   const [curItem, setCurItem] = useState(item || TodoItemEmpty)
-
+ 
   const changeItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
     const name = target.name
@@ -18,7 +18,6 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
     }
     const itemChanged = { ...curItem, [name]: properValue }
     setCurItem(itemChanged)
-    console.log('properValue', properValue)
   }
   const submitItem = () => {
     if (curItem.itemId === 0) {
