@@ -1,5 +1,5 @@
 import { setGlobal, addReducer } from 'reactn'
-import { TodoListType, TodoItemType } from './types'
+import { TodoItemType } from './types'
 
 const sampleItem: TodoItemType = {
   itemId: 1,
@@ -8,45 +8,50 @@ const sampleItem: TodoItemType = {
   deadline: 1585561626,
   isDone: false,
 }
-setGlobal({ todoItems: [sampleItem] })
+setGlobal({ todoItems: [] })
 
-addReducer('fetchItems', async (global, dispatch) => {
-  //let response = await possibleApiCall()  OR
-  //localstorage.getItem('items')
-  return { todoItems: global.todoItems }
-})
+addReducer(
+  'fetchItems',
+  /* async */ (global, dispatch) => {
+    //let response = await possibleApiCall()  OR
+    let items = global.todoItems
+    if (items.length === 0) {
+      items = JSON.parse(localStorage.getItem('todoItems') || '[]')
+    }
+    items = items.length > 0 ? items : [sampleItem]
+    return { todoItems: items }
+  },
+)
 
-addReducer('addItem', async (global, dispatch, item: TodoItemType) => {
-  console.log('addItem', item)
-  const currentItems = global.todoItems
-  const newItem = { ...item, isDone: false }
-  const newList = [...currentItems, newItem]
-  console.log('newlist', newList)
+addReducer(
+  'addItem',
+  /* async */ (global, dispatch, item: TodoItemType) => {
+    //let response = await possibleApiCall()
+    const currentItems = global.todoItems
+    const newItem = { ...item, isDone: false }
+    const newList = [...currentItems, newItem]
 
-  //let response = await possibleApiCall() OR
-  //localStorage.setItem('items', newList);
+    localStorage.setItem('todoItems', JSON.stringify(newList))
 
-  return { todoItems: newList }
-})
+    return { todoItems: newList }
+  },
+)
 
 addReducer(
   'updateItem',
-  async (global, dispatch, updatedItem: TodoItemType) => {
+  /* async */ (global, dispatch, updatedItem: TodoItemType) => {
+    //let response = await possibleApiCall()
     const currentList = global.todoItems
     const restOfList = currentList.filter(i => i.itemId !== updatedItem.itemId)
-    console.log('rest', restOfList)
     let newList
     if (restOfList.length === 0) {
       newList = [updatedItem]
+      console.log('0')
     } else {
-      newList = [
-        { ...currentList.filter(i => i.itemId !== updatedItem.itemId)[0] },
-        updatedItem,
-      ]
+      newList = [...restOfList, updatedItem]
     }
-    console.log('newlist', newList)
-    //let response = await possibleApiCall()
-    //localStorage.setItem('items', newList);
+
+    localStorage.setItem('todoItems', JSON.stringify(newList))
     return { todoItems: newList }
   },
 )

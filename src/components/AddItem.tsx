@@ -6,7 +6,7 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
   const addItem = useDispatch('addItem')
   const updateItem = useDispatch('updateItem')
   const [curItem, setCurItem] = useState(item || TodoItemEmpty)
- 
+
   const changeItem = (e: React.ChangeEvent<HTMLInputElement>) => {
     const target = e.target
     const name = target.name
@@ -19,9 +19,11 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
     const itemChanged = { ...curItem, [name]: properValue }
     setCurItem(itemChanged)
   }
+  
   const submitItem = () => {
     if (curItem.itemId === 0) {
       addItem({ ...curItem, itemId: getNewId() })
+      setCurItem(TodoItemEmpty)
     } else {
       ///updateItem
     }
@@ -59,7 +61,7 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
             name="deadline"
             value={curItem.deadline}
             onChange={changeItem}
-          />{' '}
+          />
           {/* datepickaer */}
         </label>
       </div>

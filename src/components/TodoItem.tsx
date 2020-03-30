@@ -1,11 +1,8 @@
-import React, { useDispatch, useEffect } from 'reactn'
+import React, { useDispatch } from 'reactn'
 import { TodoItemType } from '../types'
 
 const TodoItem = ({ item }: { item: TodoItemType }) => {
   const updateItem = useDispatch('updateItem')
-  useEffect(() => {
-    console.log('item has changed', item)
-  }, [item])
 
   const toggleDone = () => {
     const nowIs = item.isDone
