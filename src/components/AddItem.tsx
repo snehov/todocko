@@ -4,7 +4,7 @@ import { getNewId } from '../utils'
 
 const AddItem = ({ item }: { item?: TodoItemType }) => {
   const addItem = useDispatch('addItem')
-  const updateItem = useDispatch('updateItem')
+  //const updateItem = useDispatch('updateItem')
   const [curItem, setCurItem] = useState(item || TodoItemEmpty)
 
   const changeItem = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -25,7 +25,7 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
       addItem({ ...curItem, itemId: getNewId() })
       setCurItem(TodoItemEmpty)
     } else {
-      ///updateItem
+      // updateItem(curItem)
     }
   }
 
@@ -65,7 +65,7 @@ const AddItem = ({ item }: { item?: TodoItemType }) => {
           {/* datepickaer */}
         </label>
       </div>
-      <button onClick={submitItem}>uložit</button>
+      <button onClick={submitItem}>Save</button>
     </div>
   )
 }

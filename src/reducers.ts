@@ -3,8 +3,8 @@ import { TodoItemType } from './types'
 
 const sampleItem: TodoItemType = {
   itemId: 1,
-  title: 'první zkušební',
-  content: 'zde obsah',
+  title: 'test item todo',
+  content: 'its content',
   deadline: 1585561626,
   isDone: false,
 }
@@ -28,8 +28,7 @@ addReducer(
   /* async */ (global, dispatch, item: TodoItemType) => {
     //let response = await possibleApiCall()
     const currentItems = global.todoItems
-    const newItem = { ...item, isDone: false }
-    const newList = [...currentItems, newItem]
+    const newList = [...currentItems, item]
 
     localStorage.setItem('todoItems', JSON.stringify(newList))
 
